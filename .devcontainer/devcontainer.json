@@ -1,0 +1,72 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/python
+{
+	"name": "Python 3",
+	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+	"image": "mcr.microsoft.com/devcontainers/python:3.9",
+
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	"features": {
+        "ghcr.io/devcontainers-contrib/features/black:2": {
+            "version": "latest"
+        },
+        "ghcr.io/devcontainers-contrib/features/tox:2": {
+            "version": "latest"
+        },
+        "ghcr.io/devcontainers-contrib/features/pre-commit:2": {
+            "version": "latest"
+        }
+    },
+
+	// Configure tool-specific properties.
+	"customizations": {
+		// Configure properties specific to VS Code.
+		"vscode": {
+			"settings": {
+                // Ruff
+                "[python]": {
+                    "editor.defaultFormatter": null,
+                    "editor.formatOnSave": true,
+                    "editor.formatOnSaveMode": "file",
+                    "editor.codeActionsOnSave": {
+                      "source.organizeImports": false,
+                      "source.fixAll": true
+                    }
+                  },
+                "ruff.organizeImports": true,
+                // Autodostring
+                "autoDocstring.docstringFormat": "google",
+                "autoDocstring.generateDocstringOnEnter": false,
+
+            },
+			"extensions": [
+                // Ruff
+				"charliermarsh.ruff",
+                // Autodostring
+                "njpwerner.autodocstring",
+                // Conventional Commits
+                "vivaxy.vscode-conventional-commits"
+			]
+		}
+	},
+	
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+
+	// Use 'portsAttributes' to set default properties for specific forwarded ports. 
+	// More info: https://containers.dev/implementors/json_reference/#port-attributes
+	// "portsAttributes": {},
+
+	// Use 'postCreateCommand' to run commands after the container is created (postbuilding).
+	"postCreateCommand": [
+        "pip3 install -r ./requirements/checks.txt",
+        "pip3 install -r ./requirements/dist.txt",
+        "pip3 install -r ./requirements/doc.txt",
+        "pip3 install -r ./requirements/pylint.txt",
+        "pip3 install -r ./requirements/test-python3.9.txt",
+        "pip3 install -e ."
+    ]
+    
+	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+	// "remoteUser": "root"
+}
